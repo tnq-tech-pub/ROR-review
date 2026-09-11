@@ -1,0 +1,96 @@
+{% extends "docs_base.html" %}
+
+{% block title %}Accessibility Statement{% endblock %}
+{% block heading %}Accessibility Statement{% endblock %}
+{% block meta %}Last updated: August 2026 · Affiliation Review by TNQTech{% endblock %}
+
+{% block content %}
+<p>
+  TNQTech is committed to making the Affiliation Review application usable by as many people as
+  possible. This statement describes our accessibility goals for this independent community tool
+  supporting the ROR ecosystem.
+</p>
+
+<h2>1. Commitment</h2>
+<p>
+  We aim to conform to the
+  <a href="https://www.w3.org/TR/WCAG21/" target="_blank" rel="noopener noreferrer">Web Content Accessibility Guidelines (WCAG) 2.1</a>
+  Level AA where practical for a lightweight internal/community web application. Accessibility
+  improvements are treated as ongoing work alongside feature development.
+</p>
+
+<h2>2. Measures we take</h2>
+<ul>
+  <li>Semantic HTML structure for primary views and documentation pages</li>
+  <li>Text alternatives for key images (for example, ROR and TNQTech logos)</li>
+  <li>Visible focus styles on interactive controls</li>
+  <li>Keyboard access for primary actions (navigation, file browse, form controls, modal close)</li>
+  <li>Color is not the only means of conveying match status (labels and badges include text)</li>
+  <li>Responsive layout for common desktop and narrower viewports</li>
+</ul>
+
+<h2>3. Known limitations</h2>
+<p>Some areas may present barriers today:</p>
+<ul>
+  <li>
+    Large results tables can be difficult to navigate with screen readers; we plan clearer table
+    captions and improved header associations.
+  </li>
+  <li>
+    Drag-and-drop upload is supplemented by a standard file input; ensure you can use “Upload file”
+    if drag-and-drop is unavailable.
+  </li>
+  <li>
+    Bulk verification prompts and some alerts currently use browser dialogs, which vary by assistive
+    technology.
+  </li>
+  <li>
+    Color contrast for some secondary footer text may need further refinement on certain displays.
+  </li>
+</ul>
+
+<h2>4. Compatibility</h2>
+<p>
+  The Tool is designed for current evergreen browsers (Chrome, Firefox, Edge, Safari). JavaScript
+  is required for processing, filtering, and review workflows.
+</p>
+
+<h2>5. Assistive technologies</h2>
+<p>
+  We test with common combinations of browsers and platform accessibility features during
+  development. If you encounter a blocker with a specific assistive technology, please report it via
+  <a href="https://github.com/tnq-tech-pub/ROR-review/issues" target="_blank" rel="noopener noreferrer">GitHub Issues</a>
+  so we can prioritize a fix.
+</p>
+
+<h2>6. Feedback</h2>
+<p>
+  We welcome accessibility feedback on this Tool. Please open an issue on
+  <a href="https://github.com/tnq-tech-pub/ROR-review/issues" target="_blank" rel="noopener noreferrer">GitHub Issues</a>
+  and include:
+</p>
+<ul>
+  <li>The page or workflow where the issue occurred</li>
+  <li>Your browser, operating system, and assistive technology (if any)</li>
+  <li>A short description of the barrier and the expected behavior</li>
+</ul>
+
+<h2>7. Related resources</h2>
+<ul>
+  <li>
+    <a href="https://www.w3.org/TR/WCAG21/" target="_blank" rel="noopener noreferrer">WCAG 2.1 specification (W3C)</a>
+  </li>
+  <li>
+    <a href="https://www.w3.org/WAI/standards-guidelines/wcag/" target="_blank" rel="noopener noreferrer">WCAG overview (W3C)</a>
+  </li>
+  <li>
+    <a href="https://ror.readme.io/docs/display" target="_blank" rel="noopener noreferrer">ROR display guidelines</a>
+    (logo and identifier presentation)
+  </li>
+  <li>
+    <a href="/terms" target="_blank" rel="noopener noreferrer">Terms of Service</a> ·
+    <a href="/security" target="_blank" rel="noopener noreferrer">Security &amp; Compliance</a> ·
+    <a href="https://ror.org/about/privacy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+  </li>
+</ul>
+{% endblock %}

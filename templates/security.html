@@ -1,0 +1,110 @@
+{% extends "docs_base.html" %}
+
+{% block title %}Security & Compliance{% endblock %}
+{% block heading %}Security &amp; Compliance{% endblock %}
+{% block meta %}Last updated: August 2026 · Affiliation Review by TNQTech{% endblock %}
+
+{% block content %}
+<p>
+  This page describes how the Affiliation Review application approaches security and compliance.
+  The Tool is an independent community contribution supporting the ROR ecosystem and is not an
+  official ROR service.
+</p>
+
+<h2>1. Scope</h2>
+<p>This statement covers:</p>
+<ul>
+  <li>The Affiliation Review web application (Flask UI and processing workflow)</li>
+  <li>Local or server-side storage of batch results, remarks, verifications, and insertion exports</li>
+  <li>Outbound calls to the public ROR API for affiliation matching</li>
+</ul>
+
+<h2>2. Data handled</h2>
+<ul>
+  <li><strong>Affiliation strings</strong> you paste or upload (TXT/CSV)</li>
+  <li><strong>Review metadata</strong> such as comments, verification outcomes, and insertion drafts</li>
+  <li><strong>Match results</strong> returned by the ROR API (organization candidates, scores, identifiers)</li>
+</ul>
+<p>
+  Avoid uploading sensitive personal data that is not required for affiliation matching. Operators
+  of a deployment are responsible for configuring appropriate retention and access controls on the
+  host environment.
+</p>
+
+<h2>3. Storage and transmission</h2>
+<ul>
+  <li>
+    Results are stored as filesystem artifacts (JSON batches and CSV/XLSX exports) under the
+    configured output directories for that deployment.
+  </li>
+  <li>
+    Concurrent CSV writes use file locking to reduce corruption risk when multiple workers are active.
+  </li>
+  <li>
+    Deployments should be served over HTTPS in production so browser traffic to the Tool is encrypted
+    in transit.
+  </li>
+  <li>
+    ROR API requests are made over HTTPS to
+    <a href="https://ror.readme.io/" target="_blank" rel="noopener noreferrer">api.ror.org / ROR documentation endpoints</a>.
+  </li>
+</ul>
+
+<h2>4. Access control</h2>
+<p>
+  By default, the application does not include end-user authentication. If you deploy the Tool in a
+  shared or production environment, restrict access using network controls, reverse-proxy auth, VPN,
+  or SSO in front of the service.
+</p>
+
+<h2>5. Dependencies and updates</h2>
+<p>
+  The Tool uses a small Python stack (Flask, Gunicorn, requests, openpyxl). Operators should keep
+  base images and dependencies updated and review
+  <a href="https://ror.readme.io/" target="_blank" rel="noopener noreferrer">ROR API documentation</a>
+  for changes that may affect matching behavior.
+</p>
+
+<h2>6. Compliance posture</h2>
+<ul>
+  <li>
+    <strong>Not an official ROR processing pipeline.</strong> Outputs support human review and do not
+    bypass ROR curation.
+  </li>
+  <li>
+    <strong>Licensing:</strong> application source under MIT; ROR data under
+    <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank" rel="noopener noreferrer">CC0 1.0</a>.
+  </li>
+  <li>
+    <strong>Privacy:</strong> see the
+    <a href="https://ror.org/about/privacy/" target="_blank" rel="noopener noreferrer">ROR Privacy Policy</a>
+    for application privacy practices.
+  </li>
+  <li>
+    <strong>Brand use:</strong> ROR logo and identifiers must follow
+    <a href="https://ror.readme.io/docs/display" target="_blank" rel="noopener noreferrer">ROR display guidelines</a>.
+  </li>
+</ul>
+
+<h2>7. Incident and responsible use</h2>
+<p>
+  If you discover a security issue in a deployment of this Tool, notify the deployment operator and,
+  where appropriate, TNQTech through channels listed on
+  <a href="https://tnqtech.com/" target="_blank" rel="noopener noreferrer">tnqtech.com</a>.
+  Do not publicly disclose exploit details before a reasonable remediation window.
+</p>
+
+<h2>8. Operator checklist</h2>
+<ul>
+  <li>Terminate TLS at a reverse proxy or load balancer</li>
+  <li>Limit who can reach the UI and download endpoints</li>
+  <li>Back up and rotate <code>ror_results</code> data according to your retention policy</li>
+  <li>
+    Monitor ROR API usage against current
+    <a href="https://ror.readme.io/docs/rest-api" target="_blank" rel="noopener noreferrer">ROR REST API rate limits</a>
+    and
+    <a href="https://ror.readme.io/docs/client-id" target="_blank" rel="noopener noreferrer">client ID guidance</a>
+    (values may change; always follow ROR’s published docs)
+  </li>
+</ul>
+{% endblock %}

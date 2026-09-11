@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}Documentation{% endblock %} · ROR Affiliation Review</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body class="docs-body">
+    <header class="top-brand docs-brand">
+      <a class="site-brand" href="/" title="Back to Affiliation Review">
+        <img
+          src="/static/ror-logo-land-rgb.svg"
+          alt="ROR — Research Organization Registry"
+          class="ror-logo"
+          width="140"
+          height="46"
+        />
+      </a>
+      <a class="docs-back" href="/">← Back to Affiliation Review</a>
+    </header>
+
+    <main class="docs-page">
+      <article class="docs-card">
+        <h1>{% block heading %}{% endblock %}</h1>
+        <p class="docs-meta">{% block meta %}{% endblock %}</p>
+        <div class="docs-content">
+          {% block content %}{% endblock %}
+        </div>
+      </article>
+    </main>
+
+    <footer class="legal-footer">
+      <p class="legal-footer__license">
+        <strong>Software:</strong>
+        Source code for this application is licensed under the
+        <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT License</a>.
+      </p>
+      <p class="legal-footer__license">
+        <strong>Data:</strong>
+        ROR registry data and associated schemas are available under the
+        <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank" rel="noopener noreferrer">Creative Commons CC0 1.0 Universal License</a>.
+      </p>
+      <nav class="legal-footer__links" aria-label="Legal">
+        <a href="https://ror.org/about/privacy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+        <a href="/terms" target="_blank" rel="noopener noreferrer">Terms of Service</a>
+        <a href="/security" target="_blank" rel="noopener noreferrer">Security &amp; Compliance</a>
+        <a href="/accessibility" target="_blank" rel="noopener noreferrer">Accessibility Statement</a>
+      </nav>
+    </footer>
+  </body>
+</html>

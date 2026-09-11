@@ -1,0 +1,112 @@
+{% extends "docs_base.html" %}
+
+{% block title %}Terms of Service{% endblock %}
+{% block heading %}Terms of Service{% endblock %}
+{% block meta %}Last updated: August 2026 · Affiliation Review by TNQTech{% endblock %}
+
+{% block content %}
+<p>
+  These Terms of Service (“Terms”) govern your use of the Affiliation Review application
+  (“the Tool”), developed and maintained by TNQTech as an open-source contribution supporting
+  the Research Organization Registry (ROR) community. By accessing or using the Tool, you agree
+  to these Terms.
+</p>
+
+<h2>1. Nature of the Tool</h2>
+<p>
+  The Tool is an <strong>independent community application</strong>. It is not an official ROR
+  service and is not operated by the ROR initiative. Use of the Tool does not create any agency,
+  partnership, or representation relationship with ROR.
+</p>
+
+<h2>2. Intended use</h2>
+<p>You may use the Tool to:</p>
+<ul>
+  <li>Match author affiliation strings against the public ROR API</li>
+  <li>Review match results, add comments, and prepare insertion records</li>
+  <li>Export review reports and bulk-processing templates for further curation</li>
+</ul>
+<p>
+  You agree to use the Tool only for lawful scholarly, research, publishing, or related
+  professional purposes.
+</p>
+
+<h2>3. No automatic acceptance of submissions</h2>
+<p>
+  Reviews, remarks, and organization insertion drafts created in the Tool are
+  <strong>not automatically accepted</strong> into the ROR registry. All submissions remain
+  subject to the official
+  <a href="https://ror.org/registry/#curation" target="_blank" rel="noopener noreferrer">ROR curation process</a>
+  and applicable ROR community guidelines.
+</p>
+
+<h2>4. Your responsibilities</h2>
+<ul>
+  <li>Provide accurate affiliation and organization information to the best of your knowledge</li>
+  <li>Do not upload unlawful, confidential, or personal data you are not authorized to process</li>
+  <li>Do not attempt to disrupt, overload, or misuse the Tool or the ROR API</li>
+  <li>Comply with ROR display and data-use guidelines when using ROR identifiers or branding</li>
+</ul>
+
+<h2>5. Data processed by the Tool</h2>
+<p>
+  The Tool processes affiliation strings and related review metadata you provide. Result files
+  (JSON/CSV/XLSX) may be stored on the host environment configured by the operator of a given
+  deployment. See the
+  <a href="https://ror.org/about/privacy/" target="_blank" rel="noopener noreferrer">ROR Privacy Policy</a>
+  for application privacy practices, and the
+  <a href="/security">Security &amp; Compliance</a> page for technical handling details.
+</p>
+
+<h2>6. Third-party services</h2>
+<p>
+  Matching depends on the public
+  <a href="https://ror.readme.io/" target="_blank" rel="noopener noreferrer">ROR API and documentation</a>.
+  Availability, accuracy, and rate limits of that API are outside the application operator’s control;
+  see the
+  <a href="https://ror.readme.io/docs/rest-api" target="_blank" rel="noopener noreferrer">ROR REST API rate-limit documentation</a>.
+</p>
+
+<h2>7. Intellectual property and licensing</h2>
+<ul>
+  <li>
+    <strong>Software:</strong> Source code for this application is licensed under the
+    <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT License</a>.
+  </li>
+  <li>
+    <strong>Data:</strong> ROR registry data and associated schemas are available under the
+    <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank" rel="noopener noreferrer">Creative Commons CC0 1.0 Universal License</a>.
+  </li>
+  <li>
+    ROR name and logo usage must follow
+    <a href="https://ror.readme.io/docs/display" target="_blank" rel="noopener noreferrer">ROR display guidelines</a>.
+  </li>
+</ul>
+
+<h2>8. Disclaimer of warranties</h2>
+<p>
+  The Tool is provided “as is” and “as available,” without warranties of any kind, express or
+  implied, including accuracy of matches, fitness for a particular purpose, or uninterrupted
+  availability. Match scores and selected records are assistive outputs and require human review.
+</p>
+
+<h2>9. Limitation of liability</h2>
+<p>
+  To the maximum extent permitted by law, TNQTech and contributors shall not be liable for any
+  indirect, incidental, special, consequential, or punitive damages arising from use of the Tool,
+  including decisions made based on match results or exported records.
+</p>
+
+<h2>10. Changes</h2>
+<p>
+  These Terms may be updated from time to time. Continued use of the Tool after changes are
+  posted constitutes acceptance of the revised Terms.
+</p>
+
+<h2>11. Contact</h2>
+<p>
+  For questions about these Terms or the Tool, contact TNQTech via
+  <a href="https://tnqtech.com/" target="_blank" rel="noopener noreferrer">tnqtech.com</a>
+  or the project’s contribution channels linked from the application footer.
+</p>
+{% endblock %}

@@ -1,0 +1,46 @@
+services:
+  ror-ui:
+    image: ${ROR_UI_IMAGE:-ror-ui:local}
+    pull_policy: never
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        BASE_IMAGE: ${BASE_IMAGE:-python:3.11-slim}
+    container_name: ror-ui
+    # Host networking uses the server's DNS (required when bridge DNS cannot resolve
+    # api.ror.org). App is available at http://<server>:8000 — ports: is not used.
+    network_mode: host
+    environment:
+      OUTPUT_ROOT: /data/ror_results
+      BATCHES_ROOT: /data/ror_results/batches
+      CSV_DIR: /data/ror_results/verifications
+      INSERTIONS_CSV: /data/ror_results/ror_insertions.csv
+      REMARKS_CSV: /data/ror_results/ror_remarks.csv
+      INSERTIONS_TEMPLATE_XLSX: /app/PUBLIC ROR Bulk Processing Template - New Records.xlsx
+      FLASK_STATIC_NO_CACHE: "1"
+      HTTP_PROXY: ${HTTP_PROXY:-}
+      HTTPS_PROXY: ${HTTPS_PROXY:-}
+      NO_PROXY: ${NO_PROXY:-localhost,127.0.0.1}
+      ROR_PARALLEL_WORKERS: ${ROR_PARALLEL_WORKERS:-6}
+    volumes:
+      - /etc/resolv.conf:/etc/resolv.conf:ro
+      - ./ror_results:/data/ror_results
+      - ./templates:/app/templates
+      - ./static:/app/static
+      - ./ror_ui.py:/app/ror_ui.py
+      - ./ror_implementor.py:/app/ror_implementor.py
+      - "./PUBLIC ROR Bulk Processing Template - New Records.xlsx:/app/PUBLIC ROR Bulk Processing Template - New Records.xlsx:ro"
+    command:
+      [
+        "gunicorn",
+        "-b",
+        "0.0.0.0:8000",
+        "--workers",
+        "2",
+        "--timeout",
+        "300",
+        "--reload",
+        "ror_ui:app",
+      ]
+    restart: unless-stopped

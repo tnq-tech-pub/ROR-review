@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ROR Affiliation Review</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <!-- ========== INPUT VIEW ========== -->
+      <div id="inputView" class="view">
+        <header class="top-brand">
+          <a
+            class="site-brand"
+            href="https://ror.org"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Research Organization Registry (ROR)"
+          >
+            <img
+              src="/static/ror-logo-land-rgb.svg"
+              alt="ROR — Research Organization Registry"
+              class="ror-logo"
+              width="140"
+              height="46"
+            />
+          </a>
+        </header>
+
+        <main class="page page--input">
+          <div class="page-intro">
+            <h1 class="page-title">Affiliation Review</h1>
+            <p class="page-subtitle">
+              Match author affiliations against the ROR database, review the results, and export
+              verified records.
+            </p>
+          </div>
+
+          <section class="input-card">
+            <nav class="stepper" aria-label="Workflow steps">
+              <div class="stepper__item is-active" data-step="1">
+                <span class="stepper__circle" aria-hidden="true">1</span>
+                <span class="stepper__label">Input Affiliations</span>
+              </div>
+              <div class="stepper__line" aria-hidden="true"></div>
+              <div class="stepper__item" data-step="2">
+                <span class="stepper__circle" aria-hidden="true">2</span>
+                <span class="stepper__label">Review Results</span>
+              </div>
+              <div class="stepper__line" aria-hidden="true"></div>
+              <div class="stepper__item" data-step="3">
+                <span class="stepper__circle" aria-hidden="true">3</span>
+                <span class="stepper__label">Verify</span>
+              </div>
+            </nav>
+
+            <div class="input-split">
+              <div class="input-split__text">
+                <textarea
+                  id="affiliationInput"
+                  rows="12"
+                  placeholder="Enter your affiliation here&#10;Example: University of Oxford, Department of Physics, Oxford, UK"
+                ></textarea>
+              </div>
+
+              <div
+                id="dropZone"
+                class="input-split__drop"
+                tabindex="0"
+                role="button"
+                aria-label="Upload affiliation file"
+              >
+                <input
+                  type="file"
+                  id="affiliationFile"
+                  accept=".txt,.csv,text/plain,text/csv"
+                  hidden
+                />
+                <div class="drop-icon" aria-hidden="true">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M12 16V8M12 8l-3 3M12 8l3 3" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M20 16.5A4.5 4.5 0 0016.5 12h-1.05A6 6 0 105 16.5" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <p class="drop-title">Drag and drop files here or click to browse from your computer</p>
+                <button type="button" id="browseFileBtn" class="btn-upload">Upload file</button>
+                <p id="selectedFileName" class="drop-file-name"></p>
+                <p class="drop-hint">Supported format(s): CSV (up to 25 MB)</p>
+              </div>
+            </div>
+
+            <p id="processError" class="form-error hidden" role="alert"></p>
+            <p id="processStatus" class="process-status"></p>
+
+            <div class="input-card__footer">
+              <button id="processAffiliations" class="btn-primary" type="button">
+                Process Affiliations
+              </button>
+            </div>
+          </section>
+        </main>
+      </div>
+
+      <!-- ========== RESULTS VIEW ========== -->
+      <div id="resultsView" class="view hidden">
+        <header class="top-brand">
+          <a
+            class="site-brand"
+            href="https://ror.org"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Research Organization Registry (ROR)"
+          >
+            <img
+              src="/static/ror-logo-land-rgb.svg"
+              alt="ROR — Research Organization Registry"
+              class="ror-logo"
+              width="140"
+              height="46"
+            />
+          </a>
+        </header>
+
+        <main class="page page--results">
+          <button type="button" id="goBackBtn" class="go-back">← Go Back</button>
+
+          <div class="results-header">
+            <div>
+              <h1 class="page-title">Search Results</h1>
+              <p id="searchedFor" class="page-subtitle">Searched for 0 affiliations</p>
+            </div>
+            <button type="button" id="toggleFilters" class="btn-filter" aria-expanded="false">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <line x1="4" y1="6" x2="20" y2="6"/>
+                <line x1="8" y1="12" x2="20" y2="12"/>
+                <line x1="12" y1="18" x2="20" y2="18"/>
+                <circle cx="6" cy="12" r="2"/>
+                <circle cx="10" cy="18" r="2"/>
+              </svg>
+              Filter
+            </button>
+          </div>
+
+          <section id="filtersPanel" class="filters-box hidden">
+            <h3 class="filters-box__title">Filters</h3>
+            <div class="filters-row">
+              <label>
+                Batch
+                <select id="filterBatch">
+                  <option value="all">All</option>
+                </select>
+              </label>
+              <label>
+                Result
+                <select id="filterResult">
+                  <option value="all">All</option>
+                  <option value="matched">Matched</option>
+                  <option value="unmatched">Unmatched</option>
+                  <option value="query_has">Query has results</option>
+                </select>
+              </label>
+              <label>
+                Chosen
+                <select id="filterChosen">
+                  <option value="all">All</option>
+                  <option value="true">Selected</option>
+                  <option value="false">Not selected</option>
+                </select>
+              </label>
+              <label>
+                Score
+                <select id="filterScore">
+                  <option value="all">All</option>
+                  <option value="one">100%</option>
+                  <option value="below_one">Below 100%</option>
+                </select>
+              </label>
+            </div>
+            <div class="filters-box__actions">
+              <button id="applyFilters" class="btn-primary btn-sm" type="button">Apply</button>
+              <button id="resetFilters" class="btn-outline btn-sm" type="button">Reset</button>
+            </div>
+          </section>
+
+          <div class="results-toolbar">
+            <button id="downloadInsertions" class="btn-outline download-btn" type="button">
+              <span aria-hidden="true">⬇</span> Download ROR Insertions (.xlsx)
+            </button>
+            <button id="downloadRemarks" class="btn-outline download-btn" type="button">
+              <span aria-hidden="true">⬇</span> Download Review Report (.csv)
+            </button>
+            <button id="verifyFiltered" class="btn-primary" type="button">Verify Selected</button>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Affiliation</th>
+                  <th>Match Score</th>
+                  <th>Selected</th>
+                  <th>Comments</th>
+                  <th>ROR Record</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="resultsBody">
+                <tr>
+                  <td colspan="7" class="empty">No results yet.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </main>
+      </div>
+
+      <!-- Shared footer -->
+      <section class="contribute">
+        <div class="contribute__inner">
+          <div class="contribute__copy">
+            <h2>Contribute to the Project</h2>
+            <p>
+              Developed and maintained by TNQTech as an open-source contribution supporting the ROR
+              community.
+            </p>
+            <p class="contribute__disclaimer">
+              This is an independent community tool and is not an official ROR service. Submitted
+              reviews are subject to the ROR curation process.
+            </p>
+            <a
+              class="btn-github"
+              href="https://github.com/tnq-tech-pub/ROR-review"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 2C6.48 2 2 6.58 2 12.26c0 4.52 2.87 8.35 6.84 9.71.5.1.68-.22.68-.48 0-.24-.01-.87-.01-1.7-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.55-1.14-4.55-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.7 0 0 .84-.27 2.75 1.05A9.3 9.3 0 0112 6.8c.85 0 1.71.12 2.51.35 1.9-1.32 2.74-1.05 2.74-1.05.55 1.4.2 2.44.1 2.7.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.8-4.57 5.06.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .26.18.58.69.48A10.04 10.04 0 0022 12.26C22 6.58 17.52 2 12 2z"/>
+              </svg>
+              Go to GitHub
+            </a>
+          </div>
+          <div class="contribute__brand">
+            <img
+              class="tnq-logo-img"
+              src="/static/tnqtech-logo.png"
+              alt="TNQTECH — A Lumina Datamatics Company"
+              width="280"
+              height="86"
+            />
+          </div>
+        </div>
+      </section>
+
+      <footer class="legal-footer">
+        <p class="legal-footer__license">
+          <strong>Software:</strong>
+          Source code for this application is licensed under the
+          <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT License</a>.
+        </p>
+        <p class="legal-footer__license">
+          <strong>Data:</strong>
+          ROR registry data and associated schemas are available under the
+          <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank" rel="noopener noreferrer">Creative Commons CC0 1.0 Universal License</a>.
+        </p>
+        <nav class="legal-footer__links" aria-label="Legal">
+          <a href="https://ror.org/about/privacy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+          <a href="/terms" target="_blank" rel="noopener noreferrer">Terms of Service</a>
+          <a href="/security" target="_blank" rel="noopener noreferrer">Security &amp; Compliance</a>
+          <a href="/accessibility" target="_blank" rel="noopener noreferrer">Accessibility Statement</a>
+        </nav>
+      </footer>
+    </div>
+
+    <div id="insertionModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="insertionModalTitle">
+      <div class="modal-card insertion-modal-card">
+        <div class="modal-header">
+          <h3 id="insertionModalTitle">Organization insertion</h3>
+          <button type="button" id="insertionModalClose" class="btn-outline btn-sm">Close</button>
+        </div>
+        <p id="insertionModalMeta" class="modal-meta"></p>
+        <p class="insertion-hint">Fields marked with <span class="required-mark">*</span> are required.</p>
+        <p id="insertionFormError" class="form-error hidden" role="alert"></p>
+        <form id="insertionForm" class="insertion-form">
+          <fieldset class="insertion-fieldset">
+            <legend>Required</legend>
+            <div class="insertion-grid">
+              <label class="form-field">
+                <span>Organization name <span class="required-mark">*</span></span>
+                <input type="text" data-ins-field="organization_name" required autocomplete="organization" />
+              </label>
+              <label class="form-field">
+                <span>Organization website <span class="required-mark">*</span></span>
+                <input type="text" data-ins-field="organization_website" required placeholder="https://…" />
+              </label>
+              <label class="form-field">
+                <span>Organization domain <span class="required-mark">*</span></span>
+                <input type="text" data-ins-field="organization_domain" required placeholder="example.edu" />
+              </label>
+              <label class="form-field">
+                <span>Type of organization <span class="required-mark">*</span></span>
+                <input type="text" data-ins-field="organization_type" required />
+              </label>
+              <label class="form-field">
+                <span>City where primary org is located <span class="required-mark">*</span></span>
+                <input type="text" data-ins-field="city_primary" required />
+              </label>
+              <label class="form-field">
+                <span>Country where primary org is located <span class="required-mark">*</span></span>
+                <input type="text" data-ins-field="country_primary" required />
+              </label>
+            </div>
+          </fieldset>
+          <fieldset class="insertion-fieldset">
+            <legend>Optional</legend>
+            <div class="insertion-grid insertion-grid--optional">
+              <label class="form-field form-field--full">
+                <span>Names in other languages (separated by semicolon)</span>
+                <textarea data-ins-field="names_other_languages" rows="2"></textarea>
+              </label>
+              <label class="form-field form-field--full">
+                <span>Name variations (separated by semicolon)</span>
+                <textarea data-ins-field="name_variations" rows="2"></textarea>
+              </label>
+              <label class="form-field form-field--full">
+                <span>Acronym (separated by semicolon)</span>
+                <textarea data-ins-field="acronym" rows="2"></textarea>
+              </label>
+              <label class="form-field">
+                <span>Wikipedia page</span>
+                <input type="text" data-ins-field="wikipedia_page" />
+              </label>
+              <label class="form-field">
+                <span>Wikidata ID</span>
+                <input type="text" data-ins-field="wikidata_id" />
+              </label>
+              <label class="form-field">
+                <span>ISNI ID</span>
+                <input type="text" data-ins-field="isni_id" />
+              </label>
+              <label class="form-field">
+                <span>GRID ID</span>
+                <input type="text" data-ins-field="grid_id" />
+              </label>
+              <label class="form-field">
+                <span>Crossref Funder ID</span>
+                <input type="text" data-ins-field="crossref_funder_id" />
+              </label>
+              <label class="form-field">
+                <span>Year established (YYYY)</span>
+                <input type="text" data-ins-field="year_established" maxlength="4" inputmode="numeric" title="Four digits (YYYY) or leave empty" />
+              </label>
+              <label class="form-field form-field--full">
+                <span>Parent org in ROR (more than one parent)</span>
+                <textarea data-ins-field="parent_org_ror" rows="2"></textarea>
+              </label>
+              <label class="form-field form-field--full">
+                <span>Child org in ROR (more than one child)</span>
+                <textarea data-ins-field="child_org_ror" rows="2"></textarea>
+              </label>
+              <label class="form-field form-field--full">
+                <span>Related org in ROR (relation)</span>
+                <textarea data-ins-field="related_org_ror" rows="2"></textarea>
+              </label>
+              <label class="form-field form-field--full">
+                <span>Requestor comments</span>
+                <textarea data-ins-field="requestor_comments" rows="3"></textarea>
+              </label>
+            </div>
+          </fieldset>
+          <div class="insertion-actions">
+            <button type="button" id="insertionCancel" class="btn-outline">Cancel</button>
+            <button type="submit" class="btn-primary">Save insertion</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>
